@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Group;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -33,7 +34,9 @@ class GroupSeeder extends Seeder
         Group::insert($groups);
         Group::get()->each(function($group) {
             $users = User::doesntHave('groups')->role('student')->take(5)->pluck('id');
+            $subjects = Subject::inRandomOrder()->take(5)->pluck('id');
             $group->students()->attach($users);
+            $group->subjects()->attach($subjects);
         });
     }
 }
