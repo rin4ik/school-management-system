@@ -7,7 +7,8 @@
  
  ```bash
  clone git@github.com:rin4ik/school-management-system.git
- cd school-management-system && composer install
+ cd school-management-system 
+ composer install
  npm install
  npm run dev
  php artisan key:generate
@@ -15,8 +16,8 @@
  php artisan migrate --seed
  php artisan serve
 
- navigate to http://localhost:8000
+ Navigate to http://localhost:8000
 
- login with already seeded users
+ Login with already seeded users
  ``` 
  
