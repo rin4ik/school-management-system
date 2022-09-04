@@ -22,8 +22,14 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
-        $name = auth()->user()->roles()->first()?->name;
-        return view('dashboard.index', ["msg"=>"Hello! I am a $name"]);
+        $user = auth()->user();
+        $name = $user->roles()->first()?->name;
+        $fromGroup = null;
+        if($user->hasRole('student')) {
+            $groupName = $user->group->name;
+            $fromGroup = "from $groupName group";
+        }
+        return view('dashboard.index', ["msg"=>"Hello! I am a $name " . $fromGroup]);
     }
 
 

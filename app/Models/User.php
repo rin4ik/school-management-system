@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Traits\Student;
+use App\Http\Traits\Teacher;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, Student, Teacher;
 
     /**
      * The attributes that are mass assignable.
@@ -47,19 +49,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function getGroupAttribute()
-    {
-        if (!array_key_exists('group', $this->relations)) $this->loadGroup();
 
-        return $this->getRelation('group');
-    }
-
-    public function loadGroup()
+    public function canPerform($permission)
     {
-        $this->setRelation('group', $this->groups->first());
-    }
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class, 'group_student', 'student_id');
+        if(!$this->hasPermissionTo($permission)) 
+        {
+            return abort(403, 'Sorry Permission Denied');
+        }
     }
 }

@@ -1,14 +1,18 @@
 @extends('layouts.auth')
 
 @section('content')
-<div class="container-fluid bg-white px-4 py-5 rounded-lg shadow-lg">
+<div class="container-fluid vh-100 bg-white px-4 py-5 rounded-lg shadow-lg">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <h1 class="ml-4 h3 mb-0 text-gray-800">School Dashboard</h1>
     </div>
-
-    <div class="row text-gray-800 ml-1">
+    @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            {{$errors->first()}}
+        </div>
+    @endif
+    <h5 class="text-center w-100 text-gray-800 ml-1">
         {{$msg}}
-    </div>
+    </h5>
 
 </div>
 @endsection

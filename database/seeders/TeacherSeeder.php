@@ -20,7 +20,7 @@ class TeacherSeeder extends Seeder
         User::factory()
         ->count(50)
         ->create()->each(function ($teacher){
-            $teacherName = "Teacher " . $teacher->id;
+            $teacherName = "Teacher " . $teacher->name;
             $teacher->update(['name' => $teacherName]);
             $role = Role::whereName('teacher')->first();
             $teacher->assignRole($role);

@@ -14,7 +14,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        return view('dashboard.subjects');
+        $subjects = Subject::get();
+        return view('dashboard.subjects.index', ['subjects' => $subjects]);
     }
 
     /**
@@ -24,7 +25,9 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit subjects');
+        return view('dashboard.subjects.create');
     }
 
     /**
@@ -35,7 +38,13 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit subjects');
+        $request->validate([
+            'name' => 'required',
+        ]);
+        Subject::create($request->only('name'));
+        return back()->with('success', 'Successfully Created!');
     }
 
     /**
@@ -46,7 +55,9 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
+        $subject->load('grades', 'grades.student', 'grades.teacher', 'grades.group');
+
+        return view('dashboard.subjects.show', ['subject' => $subject]);
     }
 
     /**
@@ -57,8 +68,8 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        //
-    }
+        return view('dashboard.subjects.edit', ['subject' => $subject]);
+    }   
 
     /**
      * Update the specified resource in storage.
@@ -69,7 +80,11 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit subjects');
+
+        $subject->update($request->only('name'));
+        return back()->with('success', 'Successfully Updated!');
     }
 
     /**
@@ -80,6 +95,10 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit subjects');
+
+        $subject->delete();
+        return back()->with('success', 'Successfully Deleted!');
     }
 }

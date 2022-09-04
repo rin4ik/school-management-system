@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
+use App\Models\Group;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -14,7 +17,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('dashboard.students');
+        $students = User::role('student')->latest()->paginate(20);
+        return view('dashboard.students.index', ['students' => $students]);
     }
 
     /**
@@ -24,7 +28,10 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        $groups = Group::pluck('id', 'name');
+        $user = auth()->user();
+        $user->canPerform('edit students');
+        return view('dashboard.students.create', ['groups' => $groups, 'group_id' => request()->group_id]);
     }
 
     /**
@@ -35,7 +42,26 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit students');
+        $validated = $request->validate([
+            'name' => 'required',
+            'group_id' => 'required|integer'
+        ]);
+        
+
+        $student = User::create([
+            'name' => $request->name,
+            'email' => fake()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => Str::random(10),
+        ]);
+        $group = Group::findOrFail($request->group_id);
+        $group->students()->attach($student);
+        $role = Role::whereName('student')->first();
+        $student->assignRole($role);
+        return back()->with('success', 'Successfully Created!');
     }
 
     /**
@@ -44,9 +70,10 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show($id)
     {
-        //
+        $student = User::with('grades', 'grades.subject', 'grades.teacher')->find($id);
+        return view('dashboard.students.show', ['student' => $student]);
     }
 
     /**
@@ -55,9 +82,10 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit($id)
     {
-        //
+        $student = User::find($id);
+        return view('dashboard.students.edit', ['student' => $student]);
     }
 
     /**
@@ -67,9 +95,14 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request, $id)
     {
-        //
+        $student = User::findOrFail($id);
+        $user = auth()->user();
+        $user->canPerform('edit students');
+
+        $student->update($request->only('name'));
+        return back()->with('success', 'Successfully Updated!');
     }
 
     /**
@@ -78,8 +111,12 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy($id)
     {
-        //
+        $student = User::findOrFail($id);
+        $user = auth()->user();
+        $user->canPerform('edit students');
+        $student->delete();
+        return back()->with('success', 'Successfully Deleted!');
     }
 }

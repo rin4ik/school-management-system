@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 class TeacherController extends Controller
 {
     /**
@@ -14,7 +15,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('dashboard.teachers');
+        $teachers = User::role('teacher')->latest()->paginate(20);
+        return view('dashboard.teachers.index', ['teachers' => $teachers]);
     }
 
     /**
@@ -24,7 +26,9 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit teachers');
+        return view('dashboard.teachers.create');
     }
 
     /**
@@ -35,7 +39,21 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit teachers');
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $teacher = User::create([
+            'name' => $request->name,
+            'email' => fake()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => Str::random(10),
+        ]);
+        $role = Role::whereName('teacher')->first();
+        $teacher->assignRole($role);
+        return back()->with('success', 'Successfully Created!');
     }
 
     /**
@@ -44,9 +62,10 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function show(Teacher $teacher)
+    public function show($id)
     {
-        //
+        $teacher = User::with('marks', 'marks.subject', 'marks.student', 'marks.group')->find($id);
+        return view('dashboard.teachers.show', ['teacher' => $teacher]);
     }
 
     /**
@@ -55,9 +74,10 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function edit(Teacher $teacher)
+    public function edit($id)
     {
-        //
+        $teacher = User::find($id);
+        return view('dashboard.teachers.edit', ['teacher' => $teacher]);
     }
 
     /**
@@ -67,9 +87,13 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(Request $request, $id)
     {
-        //
+        $teacher = User::findOrFail($id);
+        $user = auth()->user();
+        $user->canPerform('edit teachers');
+        $teacher->update($request->only('name'));
+        return back()->with('success', 'Successfully Updated!');
     }
 
     /**
@@ -78,8 +102,12 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Teacher $teacher)
+    public function destroy($id)
     {
-        //
+        $teacher = User::findOrFail($id);
+        $user = auth()->user();
+        $user->canPerform('edit teachers');
+        $teacher->delete();
+        return back()->with('success', 'Successfully Deleted!');
     }
 }

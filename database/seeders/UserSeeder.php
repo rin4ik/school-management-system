@@ -53,6 +53,7 @@ class UserSeeder extends Seeder
             ['name' => 'see groups', 'able' => ['director', 'teacher']],
             ['name' => 'see students', 'able' => ['director', 'teacher']],
             ['name' => 'see teachers', 'able' => ['director']],
+            ['name' => 'see stats', 'able' => ['director']],
         ];
         foreach ($roles as $role) {
             Role::create($role);

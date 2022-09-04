@@ -20,7 +20,7 @@ class StudentSeeder extends Seeder
         User::factory()
         ->count(50)
         ->create()->each(function ($student){
-            $studentName = "Student " . $student->id;
+            $studentName = "Student " . $student->name;
             $student->update(['name' => $studentName]);
             $role = Role::whereName('student')->first();
             $student->assignRole($role);

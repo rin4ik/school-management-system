@@ -9,6 +9,7 @@ class Group extends Model
 {
     use HasFactory;
     protected $hidden = ['pivot'];
+    protected $fillable = ['name'];
 
     public function students()
     {

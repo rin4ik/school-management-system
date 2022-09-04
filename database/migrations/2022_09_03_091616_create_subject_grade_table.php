@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('subject_grade', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('group_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('student_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->on('users');
-            $table->foreignId('teacher_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->on('users');
+            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+            $table->foreignId('group_id')->constrained()->onDelete('cascade');
+            $table->foreignId('student_id')->constrained()->onDelete('cascade')->on('users');
+            $table->foreignId('teacher_id')->constrained()->onDelete('cascade')->on('users');
             $table->timestamps();
         });
     }

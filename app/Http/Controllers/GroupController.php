@@ -14,7 +14,8 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return view('dashboard.groups');
+        $groups = Group::latest()->get();
+        return view('dashboard.groups.index', ['groups' => $groups]);
     }
 
     /**
@@ -24,7 +25,9 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit groups');
+        return view('dashboard.groups.create');
     }
 
     /**
@@ -35,7 +38,13 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit groups');
+        $request->validate([
+            'name' => 'required',
+        ]);
+        Group::create($request->only('name'));
+        return back()->with('success', 'Successfully Created!');
     }
 
     /**
@@ -46,7 +55,8 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
+        $group->load('students', 'subjects');
+        return view('dashboard.groups.show', ['group' => $group]);
     }
 
     /**
@@ -57,7 +67,7 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        return view('dashboard.groups.edit', ['group' => $group]);
     }
 
     /**
@@ -69,7 +79,10 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit groups');
+        $group->update($request->only('name'));
+        return back()->with('success', 'Successfully Updated!');
     }
 
     /**
@@ -80,6 +93,9 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $user = auth()->user();
+        $user->canPerform('edit groups');
+        $group->delete();
+        return back()->with('success', 'Successfully Deleted!');
     }
 }
