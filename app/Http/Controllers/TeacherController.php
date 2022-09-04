@@ -26,8 +26,6 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        $user = auth()->user();
-        $user->canPerform('edit teachers');
         return view('dashboard.teachers.create');
     }
 
@@ -39,8 +37,7 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth()->user();
-        $user->canPerform('edit teachers');
+
         $request->validate([
             'name' => 'required',
         ]);
@@ -90,8 +87,6 @@ class TeacherController extends Controller
     public function update(Request $request, $id)
     {
         $teacher = User::findOrFail($id);
-        $user = auth()->user();
-        $user->canPerform('edit teachers');
         $teacher->update($request->only('name'));
         return back()->with('success', 'Successfully Updated!');
     }
@@ -105,8 +100,6 @@ class TeacherController extends Controller
     public function destroy($id)
     {
         $teacher = User::findOrFail($id);
-        $user = auth()->user();
-        $user->canPerform('edit teachers');
         $teacher->delete();
         return back()->with('success', 'Successfully Deleted!');
     }

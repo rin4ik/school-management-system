@@ -15,8 +15,6 @@ class GroupSubjectController extends Controller
      */
     public function create(Request $request)
     {
-        $user = auth()->user();
-        $user->canPerform('edit subjects');
         return view('dashboard.groups.subjectCreate', [
             'subjects' => Subject::pluck('id', 'name'),
             'groups' => Group::pluck('id', 'name'),
@@ -31,8 +29,6 @@ class GroupSubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth()->user();
-        $user->canPerform('edit subjects');
         $request->validate([
             'group_id' => 'required',
             'subject_id' => 'required',

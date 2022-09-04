@@ -25,8 +25,6 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        $user = auth()->user();
-        $user->canPerform('edit subjects');
         return view('dashboard.subjects.create');
     }
 
@@ -38,8 +36,6 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth()->user();
-        $user->canPerform('edit subjects');
         $request->validate([
             'name' => 'required',
         ]);
@@ -80,9 +76,6 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        $user = auth()->user();
-        $user->canPerform('edit subjects');
-
         $subject->update($request->only('name'));
         return back()->with('success', 'Successfully Updated!');
     }
@@ -95,9 +88,6 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        $user = auth()->user();
-        $user->canPerform('edit subjects');
-
         $subject->delete();
         return back()->with('success', 'Successfully Deleted!');
     }

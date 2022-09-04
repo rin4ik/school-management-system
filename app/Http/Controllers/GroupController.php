@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class GroupController extends Controller
 {
@@ -25,8 +26,6 @@ class GroupController extends Controller
      */
     public function create()
     {
-        $user = auth()->user();
-        $user->canPerform('edit groups');
         return view('dashboard.groups.create');
     }
 
@@ -38,8 +37,6 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth()->user();
-        $user->canPerform('edit groups');
         $request->validate([
             'name' => 'required',
         ]);
@@ -79,8 +76,6 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        $user = auth()->user();
-        $user->canPerform('edit groups');
         $group->update($request->only('name'));
         return back()->with('success', 'Successfully Updated!');
     }
@@ -93,8 +88,6 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        $user = auth()->user();
-        $user->canPerform('edit groups');
         $group->delete();
         return back()->with('success', 'Successfully Deleted!');
     }

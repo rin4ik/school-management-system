@@ -29,8 +29,6 @@ class StudentController extends Controller
     public function create()
     {
         $groups = Group::pluck('id', 'name');
-        $user = auth()->user();
-        $user->canPerform('edit students');
         return view('dashboard.students.create', ['groups' => $groups, 'group_id' => request()->group_id]);
     }
 
@@ -42,8 +40,6 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth()->user();
-        $user->canPerform('edit students');
         $validated = $request->validate([
             'name' => 'required',
             'group_id' => 'required|integer'
@@ -98,9 +94,6 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         $student = User::findOrFail($id);
-        $user = auth()->user();
-        $user->canPerform('edit students');
-
         $student->update($request->only('name'));
         return back()->with('success', 'Successfully Updated!');
     }
@@ -114,8 +107,6 @@ class StudentController extends Controller
     public function destroy($id)
     {
         $student = User::findOrFail($id);
-        $user = auth()->user();
-        $user->canPerform('edit students');
         $student->delete();
         return back()->with('success', 'Successfully Deleted!');
     }

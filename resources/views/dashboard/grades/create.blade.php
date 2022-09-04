@@ -14,7 +14,7 @@
             </div>
             <div class="mb-3">
                 <label for="teacher" class="form-label">Teacher</label>
-                <select name="teacher_id" id="teacher" class="form-select">
+                <select name="teacher_id" id="teacher" class="form-control">
                     <option>Select a teacher</option>
                     @foreach($teachers as $value => $key)
                         <option {{$key === auth()->id() ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
@@ -23,7 +23,7 @@
             </div>
             <div class="mb-3">
                 <label for="subject" class="form-label">Subject</label>
-                <select class="form-select" name="subject_id" id="subject">
+                <select class="form-control" name="subject_id" id="subject">
                     <option>Select a subject</option>
                     @foreach($subjects as $value => $key)
                         <option {{$key == $subject_id ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
@@ -32,7 +32,7 @@
             </div>
             <div class="mb-3">
                 <label for="student" class="form-label">Student</label>
-                <select class="form-select" name="student_id" id="student">
+                <select class="form-control" name="student_id" id="student">
                     <option>Select a student</option>
                     @foreach($students as $value => $key)
                         <option {{$key == $student_id ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>

@@ -26,9 +26,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+Route::middleware(['auth', 'has_permission'])->prefix('dashboard')->group(function () {
     Route::get("/", [HomeController::class, 'dashboard'])->name("home");
-    Route::get("/schedule", [ScheduleController::class, 'index'])->name("schedule");
     Route::resource('groups', GroupController::class);
     Route::resource('students', StudentController::class);
     Route::resource('subjects', SubjectController::class);

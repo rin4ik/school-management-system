@@ -14,7 +14,7 @@
             </div>
             <div class="mb-3">
                 <label for="group_id" class="form-label">Group</label>
-                <select class="form-select" name="group_id" id="group_id">
+                <select class="form-control" name="group_id" id="group_id">
                     <option>Select a group</option>
                     @foreach($groups as $value => $key)
                         <option {{$key == $group_id ? 'selected="selected"' : '' }} value="{{$key}}">{{$value}}</option>

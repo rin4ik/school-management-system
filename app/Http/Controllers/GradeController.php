@@ -27,9 +27,6 @@ class GradeController extends Controller
      */
     public function create(Request $request)
     {
-        
-        $user = auth()->user();
-        $user->canPerform('edit grades');
         $teachers = User::role('teacher')->pluck('id', 'name');
         $students = User::role('student')->pluck('id', 'name');
         $subjects = Subject::pluck('id', 'name');
@@ -50,13 +47,11 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth()->user();
-        $user->canPerform('edit grades');
         $validated = $request->validate([
             'mark' => 'required|integer',
-            'subject_id' => 'required',
-            'teacher_id' => 'required',
-            'student_id' => 'required',
+            'subject_id' => 'required|integer',
+            'teacher_id' => 'required|integer',
+            'student_id' => 'required|integer',
         ]);
         $student = User::findOrFail($request->student_id);
         Grade::create(array_merge(
@@ -96,9 +91,7 @@ class GradeController extends Controller
      */
     public function update(Request $request, Grade $grade)
     {
-        $user = auth()->user();
-        $user->canPerform('edit grades');
-        $grade->update($request->only('mark'));
+        $grade->update($request->only('mark'));        
         return back()->with('success', 'Successfully Updated!');
     }
 
@@ -110,12 +103,6 @@ class GradeController extends Controller
      */
     public function destroy(Grade $grade)
     {
-        $user = auth()->user();
-
-        if(!$user->hasPermissionTo('edit grades')) 
-        {
-            return back()->withErrors(['msg' => 'Permissions Denied']);
-        }
         $grade->delete();
         return back()->with('success', 'Successfully Deleted!');
     }

@@ -10,7 +10,7 @@
             @csrf
             <div class="mb-3">
                 <label for="subject" class="form-label">Subject</label>
-                <select name="subject_id" id="subject" class="form-select">
+                <select name="subject_id" id="subject" class="form-control">
                     <option>Select a subject</option>
                     @foreach($subjects as $value => $key)
                         <option {{$key === auth()->id() ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
@@ -19,7 +19,7 @@
             </div>
             <div class="mb-3">
                 <label for="group" class="form-label">Group</label>
-                <select class="form-select" name="group_id" id="group">
+                <select class="form-control" name="group_id" id="group">
                     <option>Select a group</option>
                     @foreach($groups as $value => $key)
                         <option {{$key == $group_id ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
