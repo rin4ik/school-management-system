@@ -12,16 +12,6 @@
         </div>
         @endcan
         <div class="table-responsive">
-            @if($errors->any())
-                <div class="alert alert-danger" role="alert">
-                    {{$errors->first()}}
-                </div>
-            @endif
-            @if (\Session::has('success'))
-                <div class="alert alert-success" role="alert">
-                    {!! \Session::get('success') !!}
-                </div>
-            @endif
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>

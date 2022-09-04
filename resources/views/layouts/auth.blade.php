@@ -96,6 +96,7 @@
                     </ul>
                 </nav>
                 <div class="container-fluid">
+                    <x-alert />
                     <main class="py-4">
                         @yield('content')
                     </main>

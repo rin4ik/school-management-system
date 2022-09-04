@@ -14,16 +14,6 @@
             <a href="/dashboard/group-subjects/create?group_id={{$group->id}}" class="btn btn-primary" type="button">Add Subject</a>
             @endcan
         </div>
-        @if($errors->any())
-            <div class="alert alert-danger" role="alert">
-                {{$errors->first()}}
-            </div>
-        @endif
-        @if (\Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {!! \Session::get('success') !!}
-            </div>
-        @endif
         <h2 class="h3 mb-0 text-gray-800 mb-2">Students</h2>
         <div class="table-responsive">
             @if(count($group->students))

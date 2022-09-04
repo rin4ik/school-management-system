@@ -6,16 +6,6 @@
         <h1 class="h3 mb-0 text-gray-800">Add Subject To Group</h1>
     </div>
     <div class="card-body">
-        @if($errors->any())
-            <div class="alert alert-danger" role="alert">
-                {{$errors->first()}}
-            </div>
-        @endif
-        @if (\Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {!! \Session::get('success') !!}
-            </div>
-        @endif 
         <form action="/dashboard/group-subjects" method="POST">
             @csrf
             <div class="mb-3">
@@ -23,7 +13,7 @@
                 <select name="subject_id" id="subject" class="form-select">
                     <option>Select a subject</option>
                     @foreach($subjects as $value => $key)
-                        <option {{$key === auth()->id() ? 'selected' : ''}} value="{{$key}}">{{$value}}</option>
+                        <option {{$key === auth()->id() ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
                     @endforeach
                 </select>
             </div>
@@ -32,7 +22,7 @@
                 <select class="form-select" name="group_id" id="group">
                     <option>Select a group</option>
                     @foreach($groups as $value => $key)
-                        <option {{$key == $group_id ? 'selected' : ''}} value="{{$key}}">{{$value}}</option>
+                        <option {{$key == $group_id ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
                     @endforeach
                 </select>
             </div>

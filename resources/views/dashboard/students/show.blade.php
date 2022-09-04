@@ -16,17 +16,6 @@
             </div>
         @endcan
         <h2 class="h3 mb-0 text-gray-800 mb-2">Grades</h2>
-        
-        @if($errors->any())
-            <div class="alert alert-danger" role="alert">
-                {{$errors->first()}}
-            </div>
-        @endif
-        @if (\Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {!! \Session::get('success') !!}
-            </div>
-        @endif
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>

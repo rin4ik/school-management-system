@@ -18,7 +18,7 @@ class TeacherSeeder extends Seeder
     public function run()
     {
         User::factory()
-        ->count(50)
+        ->count(20)
         ->create()->each(function ($teacher){
             $teacherName = "Teacher " . $teacher->name;
             $teacher->update(['name' => $teacherName]);

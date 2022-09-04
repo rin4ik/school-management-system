@@ -5,17 +5,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Edit Subject {{$subject->name}}</h1>
     </div>
-    <div class="card-body">
-        @if($errors->any())
-            <div class="alert alert-danger" role="alert">
-                {{$errors->first()}}
-            </div>
-        @endif
-        @if (\Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {!! \Session::get('success') !!}
-            </div>
-        @endif 
+    <div class="card-body"> 
         <form action="{{ route('subjects.update', $subject->id) }}" method="POST">
             @csrf
             @method('PATCH')

@@ -6,16 +6,6 @@
         <h1 class="h3 mb-0 text-gray-800">Add New Teacher</h1>
     </div>
     <div class="card-body">
-        @if($errors->any())
-            <div class="alert alert-danger" role="alert">
-                {{$errors->first()}}
-            </div>
-        @endif
-        @if (\Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {!! \Session::get('success') !!}
-            </div>
-        @endif 
         <form action="/dashboard/teachers" method="POST">
             @csrf
             <div class="mb-3">

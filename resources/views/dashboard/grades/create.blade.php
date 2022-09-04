@@ -6,16 +6,6 @@
         <h1 class="h3 mb-0 text-gray-800">Add Grade</h1>
     </div>
     <div class="card-body">
-        @if($errors->any())
-            <div class="alert alert-danger" role="alert">
-                {{$errors->first()}}
-            </div>
-        @endif
-        @if (\Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {!! \Session::get('success') !!}
-            </div>
-        @endif 
         <form action="/dashboard/grades" method="POST">
             @csrf
             <div class="mb-3">
@@ -27,7 +17,7 @@
                 <select name="teacher_id" id="teacher" class="form-select">
                     <option>Select a teacher</option>
                     @foreach($teachers as $value => $key)
-                        <option {{$key === auth()->id() ? 'selected' : ''}} value="{{$key}}">{{$value}}</option>
+                        <option {{$key === auth()->id() ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
                     @endforeach
                 </select>
             </div>
@@ -36,7 +26,7 @@
                 <select class="form-select" name="subject_id" id="subject">
                     <option>Select a subject</option>
                     @foreach($subjects as $value => $key)
-                        <option {{$key == $subject_id ? 'selected' : ''}} value="{{$key}}">{{$value}}</option>
+                        <option {{$key == $subject_id ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
                     @endforeach
                 </select>
             </div>
@@ -45,7 +35,7 @@
                 <select class="form-select" name="student_id" id="student">
                     <option>Select a student</option>
                     @foreach($students as $value => $key)
-                        <option {{$key == $student_id ? 'selected' : ''}} value="{{$key}}">{{$value}}</option>
+                        <option {{$key == $student_id ? 'selected="selected"' : ''}} value="{{$key}}">{{$value}}</option>
                     @endforeach
                 </select>
             </div>

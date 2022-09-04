@@ -33,7 +33,7 @@ class GroupSeeder extends Seeder
         ];
         Group::insert($groups);
         Group::get()->each(function($group) {
-            $users = User::doesntHave('groups')->inRandomOrder()->role('student')->take(5)->pluck('id');
+            $users = User::doesntHave('groups')->inRandomOrder()->role('student')->take(15)->pluck('id');
             $subjects = Subject::inRandomOrder()->take(5)->pluck('id');
 
             $group->students()->attach($users);

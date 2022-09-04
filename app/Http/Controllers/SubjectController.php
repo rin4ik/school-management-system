@@ -14,7 +14,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = Subject::get();
+        $subjects = Subject::latest()->get();
         return view('dashboard.subjects.index', ['subjects' => $subjects]);
     }
 

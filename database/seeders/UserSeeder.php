@@ -18,19 +18,19 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Student',
+                'name' => 'Student Mirakhmad',
                 'email' => 'student@school.com',
                 'role' => 'student',
                 'password' => bcrypt('password'),
             ],
             [
-                'name' => 'Teacher',
+                'name' => 'Teacher Me',
                 'email' => 'teacher@school.com',
                 'role' => 'teacher',
                 'password' => bcrypt('password'),
             ],
             [
-                'name' => 'Director',
+                'name' => 'Director Enter Engineering',
                 'email' => 'director@school.com',
                 'role' => 'director',
                 'password' => bcrypt('password'),

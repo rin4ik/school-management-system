@@ -18,7 +18,7 @@ class StudentSeeder extends Seeder
     public function run()
     {
         User::factory()
-        ->count(50)
+        ->count(200)
         ->create()->each(function ($student){
             $studentName = "Student " . $student->name;
             $student->update(['name' => $studentName]);
