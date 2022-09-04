@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 8.1
+
+before_script:
+  - cp .env.travis .env
+  - composer install --no-interaction
+
+script:
+  - php artisan key:generate
+
+services:
+  - redis-server
+
+cache:
+  directories:
+    - vendor
