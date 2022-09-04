@@ -9,10 +9,10 @@
  clone git@github.com:rin4ik/school-management-system.git
  cd school-management-system 
  composer install
+ cp .env.example .env
+ php artisan key:generate
  npm install
  npm run dev
- php artisan key:generate
- cp .env.example .env
  php artisan migrate --seed
  php artisan serve
 
