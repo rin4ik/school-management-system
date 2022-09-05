@@ -37,13 +37,13 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . auth()->id(),
         ]);
         $teacher = User::create([
             'name' => $request->name,
-            'email' => fake()->safeEmail(),
+            'email' => $request->email,
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),

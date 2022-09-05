@@ -10,7 +10,11 @@
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" placeholder="Teacher name" name="name" class="form-control" id="name">
+                <input value="{{old('name')}}" type="text" placeholder="Teacher name" name="name" class="form-control" id="name">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input value="{{old('email')}}" type="email" placeholder="Teacher email" name="email" class="form-control" id="email">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

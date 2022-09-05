@@ -40,15 +40,16 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . auth()->id(),
             'group_id' => 'required|integer'
         ]);
-        
+
 
         $student = User::create([
             'name' => $request->name,
-            'email' => fake()->safeEmail(),
+            'email' => $request->email,
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),

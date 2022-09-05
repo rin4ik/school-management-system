@@ -10,7 +10,11 @@
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" placeholder="Student name" name="name" class="form-control" id="name">
+                <input value="{{old('name')}}" type="text" placeholder="Student name" name="name" class="form-control" id="name">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input value="{{old('email')}}" type="email" placeholder="Student email" name="email" class="form-control" id="email">
             </div>
             <div class="mb-3">
                 <label for="group_id" class="form-label">Group</label>
